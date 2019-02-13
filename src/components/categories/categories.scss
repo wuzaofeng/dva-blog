@@ -1,0 +1,26 @@
+.categories {
+  margin: 0 15px 20px;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+
+  .text {
+    display: block;
+    flex: 1;
+    color: #efdcdc;
+  }
+
+  .badgeIcon {
+    :global(.ant-badge-count) {
+      box-shadow: none;
+      color: #fafafa;
+      background: #3a4f65;
+    }
+  }
+}
+
+
+
+

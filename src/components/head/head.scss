@@ -1,0 +1,53 @@
+@import "../../assets/var";
+
+.header {
+  position: fixed;
+  width: 100%;
+  background: $head-bg;
+  padding: 0;
+  height: 48px;
+  line-height: 48px;
+  color: $head-col;
+  z-index: 1;
+}
+
+.head {
+  width: $default-wd;
+  margin: auto;
+  box-shadow: 0 0 14px 4px rgba(0,0,0,.2);
+}
+
+.logo {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 200;
+  color: #fff;
+  background: $side-bg;
+}
+
+.search {
+  .input {
+    float: right;
+    width: 200px;
+    vertical-align: middle;
+  }
+}
+
+.menuItem {
+}
+
+// lg
+@media screen and (max-width: 992px) {
+  .head {
+    width: $lg-wd;
+    margin: auto;
+  }
+}
+
+// md
+@media screen and (max-width: 768px) {
+  .head {
+    width: $md-wd;
+    margin: auto;
+  }
+}

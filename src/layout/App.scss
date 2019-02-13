@@ -1,0 +1,35 @@
+@import "../assets/var";
+
+.app {
+  min-height: 100%;
+  color: #58666e;
+  font-family: "Exo 2","Trebuchet MS",Helvetica,Arial,'PingFang SC','Hiragino Sans GB','STHeiti Light','Microsoft YaHei',SimHei,'WenQuanYi Micro Hei',sans-serif;
+  background: url('../assets/bg.jpg') no-repeat center fixed;
+  background-size: 100%;
+}
+
+.main {
+  width: $default-wd;
+  margin: 48px auto 0;
+  box-shadow: 0 0 14px 4px rgba(0,0,0,.2);
+}
+
+.content {
+  background: $content-bg;
+}
+
+// lg
+@media screen and (max-width: 992px) {
+  .main {
+    width: $lg-wd;
+    margin: auto;
+  }
+}
+
+// md
+@media screen and (max-width: 768px) {
+  .main {
+    width: $md-wd;
+    margin: auto;
+  }
+}

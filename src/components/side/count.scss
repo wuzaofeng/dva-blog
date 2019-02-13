@@ -1,0 +1,24 @@
+.count {
+  margin-bottom: 20px;
+  text-align: center;
+
+  &:before {
+    position: absolute;
+    top: .6em;
+    right: -.1em;
+    content: '';
+    width: 1px;
+    height: 60%;
+    background-color: #a07575;
+  }
+  .p {
+    color: #efefef;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .span {
+    color: #5879a2;
+    font-size: 14px;
+  }
+}

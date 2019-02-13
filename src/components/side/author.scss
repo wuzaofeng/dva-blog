@@ -1,0 +1,22 @@
+$p-color: #efefef;
+.author {
+  .pic {
+    margin: 35px auto 20px;
+    text-align: center;
+  }
+
+  .location {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: $p-color;
+    text-align: center;
+  }
+
+
+  .email {
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: $p-color;
+    text-align: center;
+  }
+}
