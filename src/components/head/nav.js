@@ -14,7 +14,7 @@ class Nav extends Component {
         style={menuStyle}
       >
         {
-          menu.map(i => (
+          menu && menu.map(i => (
             <Menu.Item className={style.menuItem} key={i.key}>
               { i.text }
             </Menu.Item>

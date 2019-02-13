@@ -9,25 +9,11 @@ const { Header } = Layout;
 
 class Head extends Component {
   render() {
-    const navProps = {
-      menu: [{
-        text: '首页',
-        link: '/',
-        key: 'home',
-      }, {
-        text: '关于',
-        link: '/',
-        key: 'about',
-      }, {
-        text: '项目',
-        link: '/',
-        key: ' project',
-      }, {
-        text: '链接',
-        link: '/',
-        key: 'link'
-      }]
-    }
+    const { menu } = this.props
+    // console.log(this.props)
+    // const navProps = {
+    //   menu
+    // }
 
     const rowProps = {
       type: "flex",
@@ -43,7 +29,7 @@ class Head extends Component {
       <Header className={style.header}>
         <Row className={style.head} {...rowProps}>
           <Col span={18}>
-            <Nav {...navProps} />
+            <Nav menu={menu} />
             {/*<Search />*/}
           </Col>
           <Col className={style.logo} span={6} >

@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon } from 'antd'
 import style from './bar-icon.scss'
 
-const BarIcon = () => {
+const BarIcon = ({ barIcon }) => {
   return (
     <ul className={style.ul}>
       <li className={style.li}>
@@ -10,21 +10,15 @@ const BarIcon = () => {
           <Icon type="github" theme="filled" />
         </a>
       </li>
-      <li className={style.li}>
-        <a>
-          <Icon type="github" theme="filled" />
-        </a>
-      </li>
-      <li className={style.li}>
-        <a>
-          <Icon type="github" theme="filled" />
-        </a>
-      </li>
-      <li className={style.li}>
-        <a>
-          <Icon type="github" theme="filled" />
-        </a>
-      </li>
+      {
+        barIcon.map((item, i) => (
+          <li key={i} className={style.li}>
+            <a>
+              <Icon type={item.type} theme="filled" />
+            </a>
+          </li>
+        ))
+      }
     </ul>)
 }
 

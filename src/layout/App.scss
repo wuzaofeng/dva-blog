@@ -9,13 +9,24 @@
 }
 
 .main {
-  width: $default-wd;
   margin: 48px auto 0;
   box-shadow: 0 0 14px 4px rgba(0,0,0,.2);
 }
 
+.mainRow {
+  width: $default-wd;
+}
+
 .content {
   background: $content-bg;
+}
+
+// xl
+@media screen and (max-width: 1200px) {
+  .main {
+    width: $xl-wd;
+    margin: auto;
+  }
 }
 
 // lg

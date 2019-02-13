@@ -3,7 +3,7 @@ import { Card, Tag } from 'antd';
 import Title from '../title/title'
 import style from './tags.scss'
 
-const Tags = () => {
+const Tags = ({ tags }) => {
   const icon = {
     type: "tags"
   }
@@ -20,13 +20,12 @@ const Tags = () => {
         padding: '15px'
       }}
     >
-      <Tag className={style.tag} color="#f50">Java</Tag>
-      <Tag className={style.tag} color="#f50">Java</Tag>
-      <Tag className={style.tag} color="#f50">Java</Tag>
-      <Tag className={style.tag} color="#f50">Java</Tag>
-      <Tag className={style.tag} color="#f50">Java</Tag>
-      <Tag className={style.tag} color="#f50">Java</Tag>
-      <Tag className={style.tag} color="#f50">Java</Tag>
+
+      {
+        tags.map((item, i) => (
+          <Tag key={i} className={style.tag} color="#f50">{item.text}</Tag>
+        ))
+      }
     </Card>
   )
 }

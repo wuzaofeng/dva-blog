@@ -13,14 +13,15 @@ const Statistic = (props) => {
   )
 }
 
-const Count = () => {
+const Count = ({ count }) => {
+  const { article, tags } = count
   return (
     <Row>
       <Col span={12}>
-        <Statistic text="文章" count="100" />
+        <Statistic count={article} text="文章" />
       </Col>
       <Col span={12}>
-        <Statistic text="标签" count="100" />
+        <Statistic count={tags} text="标签" />
       </Col>
     </Row>)
 }

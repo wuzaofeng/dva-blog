@@ -36,11 +36,17 @@
 .menuItem {
 }
 
+// xl
+@media screen and (max-width: 1200px) {
+  .main {
+    width: $xl-wd;
+  }
+}
+
 // lg
 @media screen and (max-width: 992px) {
   .head {
     width: $lg-wd;
-    margin: auto;
   }
 }
 
@@ -48,6 +54,5 @@
 @media screen and (max-width: 768px) {
   .head {
     width: $md-wd;
-    margin: auto;
   }
 }

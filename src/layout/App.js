@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
-import { Layout, Row, Col } from "antd";
+import PropTypes from 'prop-types'
+import { connect } from "dva"
+import { Layout, Row, Col } from "antd"
 import style from './App.scss'
 import Head from '../components/head/head'
 import Side from '../components/side/side'
@@ -8,26 +9,43 @@ import Side from '../components/side/side'
 const { Content } = Layout
 
 class App extends Component {
+  componentDidMount() {
+    this.getUser()
+  }
+
+  getUser = () => {
+    this.props.dispatch({
+      type: 'user/fetchUser'
+    })
+  }
+
   render() {
+    const { user }= this.props
+    const { menu } = user
+    console.log(user)
     return (
       <>
-        <Layout className={style.app}>
-          <Head />
-          <Layout className={style.main}>
-            <Row style={{ width: '100%' }}>
-              <Col span={18}>
-                <Content className={style.content}>
-                  {
-                    this.props.children
-                  }
-                </Content>
-              </Col>
-              <Col style={{ position: 'relative', height: '100%' }} span={6}>
-                <Side />
-              </Col>
-            </Row>
-          </Layout>
-        </Layout>
+        {
+          user && (
+            <Layout className={style.app}>
+              <Head menu={menu} />
+              <Layout className={style.main}>
+                <Row className={style.mainRow}>
+                  <Col span={18}>
+                    <Content className={style.content}>
+                      {
+                        this.props.children
+                      }
+                    </Content>
+                  </Col>
+                  <Col style={{ position: 'relative', height: '100%' }} span={6}>
+                    <Side user={user} />
+                  </Col>
+                </Row>
+              </Layout>
+            </Layout>
+          )
+        }
       </>
     )
   }
@@ -40,4 +58,6 @@ App.propTypes = {
   ]).isRequired
 };
 
-export default App
+export default connect(({ user }) => ({
+  user,
+}))(App)
