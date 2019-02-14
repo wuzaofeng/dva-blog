@@ -1,10 +1,10 @@
-import { getUser } from '../services/user'
+import { getArticles } from '../services/articles'
 export default {
-  namespace: 'user',
+  namespace: 'articles',
   state: '',
   effects: {
-    *fetchUser({ payload }, { call, put }) {  // eslint-disable-line
-      const response = yield call(getUser)
+    *fetchArticles({ payload }, { call, put }) {  // eslint-disable-line
+      const response = yield call(getArticles)
       const { data } = response
       yield put({ type: 'save', payload: data });
     },

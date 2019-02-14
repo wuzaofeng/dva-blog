@@ -22,7 +22,6 @@ class App extends Component {
   render() {
     const { user }= this.props
     const { menu } = user
-    console.log(user)
     return (
       <>
         {
