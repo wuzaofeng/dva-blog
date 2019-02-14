@@ -13,8 +13,8 @@ const BarIcon = ({ barIcon }) => {
       {
         barIcon.map((item, i) => (
           <li key={i} className={style.li}>
-            <a>
-              <Icon type={item.type} theme="filled" />
+            <a href={item.link}>
+              <Icon type={item.icon} theme="filled" />
             </a>
           </li>
         ))

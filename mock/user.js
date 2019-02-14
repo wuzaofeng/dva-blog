@@ -3,12 +3,19 @@ export default {
   'GET /api/user': {
     authorSrc: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1401422158,2435265343&fm=26&gp=0.jpg',
     username: 'WEIC`S BLOG',
+    location: 'shenzhen China',
+    email: '673908452@qq.com',
     count: {
       tags: 105,
       article: 100,
     },
-    location: 'shenzhen China',
-    email: '673908452@qq.com',
+    tags: [{
+      text: 'javascript',
+    }, {
+      text: 'scss'
+    }, {
+      text: 'sass'
+    }],
     barIcon: [{
       type: 'github',
       link: 'https://github.com/wuzaofeng'
@@ -35,30 +42,6 @@ export default {
       name: '学习笔记',
       count: 8
     }],
-    tags: [{
-      text: 'javascript',
-    }, {
-      text: 'scss'
-    }, {
-      text: 'sass'
-    }],
-    menu: [{
-      text: '首页',
-      link: '/',
-      key: 'home',
-    }, {
-      text: '关于',
-      link: '/',
-      key: 'about',
-    }, {
-      text: '项目',
-      link: '/',
-      key: ' project',
-    }, {
-      text: '链接',
-      link: '/',
-      key: 'link'
-    }]
   },
   'POST /api/register': (req, res) => {
     res.send({ status: 'ok', currentAuthority: 'user' });

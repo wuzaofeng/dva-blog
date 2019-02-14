@@ -23,7 +23,7 @@ const Tags = ({ tags }) => {
 
       {
         tags.map((item, i) => (
-          <Tag key={i} className={style.tag} color="#f50">{item.text}</Tag>
+          <Tag key={i} className={style.tag} color="#f50">{item.name}</Tag>
         ))
       }
     </Card>

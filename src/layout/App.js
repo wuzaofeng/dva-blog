@@ -21,7 +21,23 @@ class App extends Component {
 
   render() {
     const { user }= this.props
-    const { menu } = user
+    const menu = [{
+      text: '首页',
+      link: '/',
+      key: 'home',
+    }, {
+      text: '关于',
+      link: '/',
+      key: 'about',
+    }, {
+      text: '项目',
+      link: '/',
+      key: ' project',
+    }, {
+      text: '链接',
+      link: '/',
+      key: 'link'
+    }]
     return (
       <>
         {

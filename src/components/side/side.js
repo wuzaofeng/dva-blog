@@ -4,7 +4,6 @@ import Author from './author'
 import Count from './count'
 import BarIcon from './bar-icon'
 import Categories from '../categories/categories'
-// import Kalendar from '../kalendar/kalendar'
 import Tags from '../tags/tags'
 import style from './side.scss'
 const { Sider } = Layout

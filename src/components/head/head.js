@@ -10,10 +10,6 @@ const { Header } = Layout;
 class Head extends Component {
   render() {
     const { menu } = this.props
-    // console.log(this.props)
-    // const navProps = {
-    //   menu
-    // }
 
     const rowProps = {
       type: "flex",
