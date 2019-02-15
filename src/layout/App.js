@@ -37,6 +37,10 @@ class App extends Component {
       text: '链接',
       link: '/',
       key: 'link'
+    }, {
+      text: '管理',
+      link: '/manage',
+      key: 'manage'
     }]
     return (
       <>

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Menu } from 'antd';
+import { Link } from "dva/router";
 import style from './head.scss'
 
 class Nav extends Component {
   render() {
     const { menu } = this.props
+    console.log(menu)
     const menuStyle = {
       borderBottom: 0
     }
@@ -16,7 +18,9 @@ class Nav extends Component {
         {
           menu && menu.map(i => (
             <Menu.Item className={style.menuItem} key={i.key}>
-              { i.text }
+              <Link to={i.link} >
+                { i.text }
+              </Link>
             </Menu.Item>
           ))
         }

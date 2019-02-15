@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { List } from 'antd';
-import Item from '../components/item/item'
-import Pagin from '../components/pagin/pagin'
+import Item from '../../components/item/item'
+import Pagin from '../../components/pagin/pagin'
 import style from './Home.scss';
 
 class Home extends Component {

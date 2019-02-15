@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from 'antd'
 import style from './item.scss'
+import { formatDate } from "../../utils/utils";
 
 const Item = (props) => {
   const { data } = props
@@ -15,7 +16,7 @@ const Item = (props) => {
         </h3>
 
         <span className={style.create}>
-          { data.author } 发布于 { data.create }
+          { data.author } 发布于 { formatDate(data.create) }
         </span>
       </div>
         <div className={style.content}>

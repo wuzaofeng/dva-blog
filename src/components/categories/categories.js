@@ -6,7 +6,7 @@ import style from './categories.scss'
 const Item = item => (
   <List.Item className={style.item}>
     <a className={style.text}>{item.name}</a>
-    <Badge className={style.badgeIcon} count={item.count} />
+    <Badge className={style.badgeIcon} count={item.count} showZero />
   </List.Item>
 )
 
@@ -14,6 +14,7 @@ const Categories = ({ categories }) => {
   const icon = {
     type: "folder-open"
   }
+
   return (
     <List
       className={style.categories}

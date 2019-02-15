@@ -4,7 +4,8 @@ export default {
   state: '',
   effects: {
     *fetchUser({ payload }, { call, put }) {  // eslint-disable-line
-      const response = yield call(getUser)
+      const email = '673908452@qq.com'
+      const response = yield call(getUser, email)
       const { data } = response
       yield put({ type: 'save', payload: data });
     },
