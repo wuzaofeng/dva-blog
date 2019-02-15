@@ -3,16 +3,17 @@ export default {
   namespace: 'user',
   state: '',
   effects: {
+    // 获取个人详情
     *fetchUser({ payload }, { call, put }) {  // eslint-disable-line
       const email = '673908452@qq.com'
-      const response = yield call(getUser, email)
+      const response = yield call(getUser, {email})
       const { data } = response
-      yield put({ type: 'save', payload: data });
-    },
+      yield put({ type: 'setUser', payload: data });
+    }
   },
 
   reducers: {
-    save(state, action) {
+    setUser(state, action) {
       return { ...state, ...action.payload };
     },
   },

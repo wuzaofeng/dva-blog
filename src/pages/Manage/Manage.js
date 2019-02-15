@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+// import { connect } from 'dva';
 import { Tabs } from 'antd'
 import { StickyContainer, Sticky } from 'react-sticky'
-import Table from '../../components/table/table'
+import UserManage from './user'
 // import style from './Manage'
 
 const { TabPane } = Tabs
@@ -15,11 +16,15 @@ const renderTabBar = (props, DefaultTabBar) => (
 );
 
 class Manage extends Component {
+  componentDidMount() {
+    console.log(this.props)
+  }
+
   render() {
     const tabs = [{
       title: '用户管理',
       content: '用户管理',
-      component: <Table />
+      component: <UserManage />
     }, {
       title: '分类管理',
       content: '分类管理'
@@ -40,7 +45,7 @@ class Manage extends Component {
             tabs && tabs.map((item, i) => (
               <TabPane tab={item.title} key={i}>
                 { item.component }
-                {item.content}</TabPane>
+              </TabPane>
             ))
           }
         </Tabs>
