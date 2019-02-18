@@ -8,3 +8,24 @@ import request from '../utils/request';
 export function getUser({email = '', id = '' } = '') {
   return request(`/api/user?email=${email}&id=${id}`);
 }
+
+export function createUser(data) {
+  return request('/api/user', {
+    body: data,
+    method: 'POST'
+  })
+}
+
+export function updateUser(data) {
+  return request('/api/user', {
+    body: data,
+    method: 'PUT'
+  })
+}
+
+export function delUser(data) {
+  return request('/api/user', {
+    body: data,
+    method: 'DELETE'
+  })
+}

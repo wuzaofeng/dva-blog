@@ -3,14 +3,21 @@ import { Table } from 'antd';
 import style from './table.scss'
 
 class ManageTable extends Component {
-  state = {
-    loading: false,
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     loading: false,
+  //
+  //   }
+  // }
 
   render() {
-    // const { loading } = this.state;
-    const { columns, tableData, rowKey } = this.props
-    const rowSelection = {}
+    // const { loading, selectedRowKeys } = this.state;
+    const { columns, tableData, rowKey, onSelectChange, selectedRowKeys } = this.props
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange
+    }
     const pagination = {
       hideOnSinglePage: true
     }

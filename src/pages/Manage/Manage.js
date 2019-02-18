@@ -16,10 +16,6 @@ const renderTabBar = (props, DefaultTabBar) => (
 );
 
 class Manage extends Component {
-  componentDidMount() {
-    console.log(this.props)
-  }
-
   render() {
     const tabs = [{
       title: '用户管理',

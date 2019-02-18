@@ -6,7 +6,6 @@ import style from './head.scss'
 class Nav extends Component {
   render() {
     const { menu } = this.props
-    console.log(menu)
     const menuStyle = {
       borderBottom: 0
     }

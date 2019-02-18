@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Avatar, Button, Icon, Popconfirm, message, Modal,
-  Form, Input, Upload
-} from "antd"
-import { getUser } from "../../services/user"
+  Form, Input } from "antd"
+import {getUser, createUser, updateUser, delUser} from "../../services/user"
 import ManageTable from '../../components/table/table'
 import style from "./user.scss"
-import {beforeUpload, getBase64} from "../../utils/utils";
+import {CODE} from "../../config";
+
+console.log(CODE)
 
 const ButtonGroup = Button.Group;
 
@@ -24,19 +25,21 @@ const formItemLayout = {
 @Form.create({ name: 'userManage' })
 class UserManage extends Component {
   state = {
-    list: [],
-    count: 0,
-    visible: false,
-    confirmLoading: false,
-    imgLoading: false,
-    editModels: {}
+    list: [], // 数据
+    count: 0, // 总条数
+    visible: false, // 弹出层
+    confirmLoading: false,  // 弹出层loading
+    editModels: {}, // 编辑数据
+    type: '', // 弹出层类型 默认添加 edit 编辑
+    selectedRowKeys: [], // table选中框
   }
 
   componentDidMount() {
     this.getList()
   }
 
-  getList() {
+  // 获取列表
+  getList = () => {
     getUser().then(res => {
       const { data: { list, count } } = res
       this.setState({
@@ -46,10 +49,27 @@ class UserManage extends Component {
     })
   }
 
+  // 删除用户
   delUser = (e) => {
-    message.success('Click on Yes');
+    const { selectedRowKeys } = this.state
+    if (!selectedRowKeys.length) {
+      message.error('未选中行');
+      return
+    }
+    delUser({
+      delData: selectedRowKeys
+    }).then(res => {
+      const { code } = res.data || {}
+      if (code === CODE.SUCCESS) {
+        message.success('删除成功');
+        this.getList()
+      } else {
+        message.error('删除失败');
+      }
+    })
   }
 
+  // 弹出层显示
   showModal = (type='', data='') => {
     let editModels = {}
     if (type && data) {
@@ -60,54 +80,80 @@ class UserManage extends Component {
     }
     this.setState({
       visible: true,
-      editModels
+      editModels,
+      type
     });
   }
 
+
+  // 取消弹出层
   handleCancel = () => {
     this.setState({
       visible: false,
     });
   }
 
-  handleChange = (info) => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => this.setState({
-        imageUrl,
-        loading: false,
-      }));
-    }
-  }
-
+  // 弹出层确认
   handleSubmit = () => {
     this.setState({
       confirmLoading: true,
     });
-    console.log(this.props)
-    // this.props.form.validateFields((err, fieldsValue) => {
-    //   if (err) {
-    //     return;
-    //   }
-    //   console.log(fieldsValue)
-    // });
+    this.props.form.validateFields((err, fieldsValue) => {
+      if (err) {
+        this.setState({
+          confirmLoading: false,
+        });
+        return;
+      }
+      const { type, editModels } = this.state
+      if (type) {
+        updateUser({ ...editModels, ...fieldsValue}).then((res) => {
+          const { code } = res.data || {}
+          if (code === CODE.SUCCESS) {
+            message.success('更新成功');
+            this.setState({
+              visible: false,
+              confirmLoading: false
+            });
+            this.getList()
+          } else {
+            message.error('更新失败');
+            this.setState({
+              confirmLoading: false
+            });
+          }
+        })
+      } else {
+        createUser(fieldsValue).then(res => {
+          const { code } = res.data || {}
+          if (code === CODE.SUCCESS) {
+            message.success('添加成功');
+            this.setState({
+              visible: false,
+              confirmLoading: false
+            });
+            this.getList()
+          } else {
+            message.error('添加失败');
+            this.setState({
+              confirmLoading: false
+            });
+          }
+        })
+      }
+    });
   }
 
+  // 选中触发事件
+  onSelectChange = (selectedRowKeys) => {
+    this.setState({
+      selectedRowKeys,
+    })
+  }
 
   render() {
-    const { list, visible, confirmLoading, editModels } = this.state
+    const { list, visible, confirmLoading, editModels, selectedRowKeys } = this.state
     const { form: { getFieldDecorator }} = this.props;
-    const uploadButton = (
-      <div>
-        <Icon type={this.state.loading ? 'loading' : 'plus'} />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-    const imageUrl = this.state.imageUrl;
     const columns = [{
       title: '用户信息',
       dataIndex: 'authorSrc',
@@ -133,7 +179,7 @@ class UserManage extends Component {
     return (
       <div className={style.wrap}>
         <ButtonGroup className={style.buttonWrap}>
-          <Button type="primary" onClick={this.showModal}>
+          <Button type="primary" onClick={() => this.showModal()}>
             <Icon type="user-add" />
             添加
           </Button>
@@ -141,9 +187,9 @@ class UserManage extends Component {
             okType="danger"
             title="你确定要删除用户么？"
             placement="rightTop"
-            onConfirm={this.delUser}
             okText="是"
-            cancelText="否">
+            cancelText="否"
+            onConfirm={this.delUser}>
             <Button>
               <Icon type="user-delete" />
               删除
@@ -154,6 +200,8 @@ class UserManage extends Component {
           columns={columns}
           tableData={list}
           rowKey="_id"
+          onSelectChange={this.onSelectChange}
+          selectedRowKeys={selectedRowKeys}
         />
         <Modal
           visible={visible}
