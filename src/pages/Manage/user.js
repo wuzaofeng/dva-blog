@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import { Avatar, Button, Icon, Popconfirm, message, Modal,
-  Form, Input } from "antd"
+import { Avatar, Button, Icon, Popconfirm, message, Modal, Form, Input, Upload } from "antd"
 import {getUser, createUser, updateUser, delUser} from "../../services/user"
 import ManageTable from '../../components/table/table'
 import style from "./user.scss"
 import {CODE} from "../../config";
-
-console.log(CODE)
+import {beforeUpload} from "../../utils/utils";
 
 const ButtonGroup = Button.Group;
 
@@ -29,9 +27,12 @@ class UserManage extends Component {
     count: 0, // 总条数
     visible: false, // 弹出层
     confirmLoading: false,  // 弹出层loading
-    editModels: {}, // 编辑数据
+    formModels: {}, // 编辑数据
     type: '', // 弹出层类型 默认添加 edit 编辑
     selectedRowKeys: [], // table选中框
+    imageUrl: '', // 头像
+    imgLoading: false,
+    avatarError: '' // 头像错误信息
   }
 
   componentDidMount() {
@@ -71,20 +72,20 @@ class UserManage extends Component {
 
   // 弹出层显示
   showModal = (type='', data='') => {
-    let editModels = {}
+    let formModels = {}
+    let imageUrl = ''
     if (type && data) {
       const {authorSrc, email, location, _id, username} = data
-      editModels = {
-        authorSrc, email, location, _id, username
-      }
+      formModels = { email, location, _id, username  }
+      imageUrl = authorSrc
     }
     this.setState({
       visible: true,
-      editModels,
+      formModels,
+      imageUrl,
       type
     });
   }
-
 
   // 取消弹出层
   handleCancel = () => {
@@ -105,9 +106,17 @@ class UserManage extends Component {
         });
         return;
       }
-      const { type, editModels } = this.state
+      const { type, formModels, imageUrl } = this.state
+      // 验证头像
+      if (!imageUrl.length) {
+        this.setState({
+          avatarError: '请输入头像',
+          confirmLoading: false
+        })
+        return
+      }
       if (type) {
-        updateUser({ ...editModels, ...fieldsValue}).then((res) => {
+        updateUser({ ...formModels, ...fieldsValue, authorSrc: imageUrl}).then((res) => {
           const { code } = res.data || {}
           if (code === CODE.SUCCESS) {
             message.success('更新成功');
@@ -124,7 +133,7 @@ class UserManage extends Component {
           }
         })
       } else {
-        createUser(fieldsValue).then(res => {
+        createUser({...fieldsValue, authorSrc: imageUrl}).then(res => {
           const { code } = res.data || {}
           if (code === CODE.SUCCESS) {
             message.success('添加成功');
@@ -151,8 +160,21 @@ class UserManage extends Component {
     })
   }
 
+  handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      this.setState({ imgLoading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      this.setState({
+        imageUrl: info.file.response.path,
+        imgLoading: false,
+      })
+    }
+  }
+
   render() {
-    const { list, visible, confirmLoading, editModels, selectedRowKeys } = this.state
+    const { list, visible, confirmLoading, formModels, selectedRowKeys, imageUrl, avatarError, imgLoading } = this.state
     const { form: { getFieldDecorator }} = this.props;
     const columns = [{
       title: '用户信息',
@@ -175,6 +197,13 @@ class UserManage extends Component {
       width: 100,
       render: (text, record) => <Button size="small" block onClick={() => this.showModal('edit', record)}>修改</Button>,
     },]
+
+    const uploadButton = (
+      <div>
+        <Icon type={imgLoading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    )
 
     return (
       <div className={style.wrap}>
@@ -214,10 +243,21 @@ class UserManage extends Component {
         >
           <Form onSubmit={this.handleSubmit}>
             <Form.Item
+              required
               {...formItemLayout}
               label="头像"
+              help={avatarError}
+              validateStatus="error"
             >
-              <Avatar src={editModels.authorSrc} icon="user" size={64} />
+              <Upload
+                listType="picture-card"
+                showUploadList={false}
+                action="api/common/avatar"
+                beforeUpload={beforeUpload}
+                onChange={this.handleChange}
+              >
+                {imageUrl ? <img className={style.avatarUploader} src={imageUrl} alt="avatar" /> : uploadButton}
+              </Upload>
             </Form.Item>
             <Form.Item
               {...formItemLayout}
@@ -225,7 +265,7 @@ class UserManage extends Component {
             >
               {
                 getFieldDecorator('username', {
-                  initialValue: editModels.username || '',
+                  initialValue: formModels.username || '',
                   rules: [{ required: true, message: '请输入用户名' }]
                 })(<Input placeholder="作为Blog标题" />)
               }
@@ -236,7 +276,7 @@ class UserManage extends Component {
             >
               {
                 getFieldDecorator('location', {
-                  initialValue: editModels.location || '',
+                  initialValue: formModels.location || '',
                   rules: [{ required: true, message: '请输入地址' }]
                 })(<Input placeholder="输入地址" />)
               }
@@ -247,7 +287,7 @@ class UserManage extends Component {
             >
               {
                 getFieldDecorator('email', {
-                  initialValue: editModels.email || '',
+                  initialValue: formModels.email || '',
                   rules: [{ required: true, message: '请输入地址' }]
                 })(<Input placeholder="输入邮箱" />)
               }
