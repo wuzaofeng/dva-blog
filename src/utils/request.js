@@ -1,13 +1,11 @@
 import fetch from 'dva/fetch';
 import { CODE } from '../config'
-import {message} from "antd";
 
 function parseJSON(response) {
   return response.json();
 }
 
 function checkStatus(response) {
-  console.log(response)
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -18,7 +16,6 @@ function checkStatus(response) {
 }
 
 function checkCode(response) {
-  console.log(response)
   if (response.code === CODE.SUCCESS) {
     return response;
   }

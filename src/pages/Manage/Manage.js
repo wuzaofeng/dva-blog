@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Tabs } from 'antd'
 import { StickyContainer, Sticky } from 'react-sticky'
 import UserManage from './user'
+import Categories from './categories'
 // import style from './Manage'
 
 const { TabPane } = Tabs
@@ -23,7 +24,8 @@ class Manage extends Component {
       component: <UserManage />
     }, {
       title: '分类管理',
-      content: '分类管理'
+      content: '分类管理',
+      component: <Categories />
     }, {
       title: '标签管理',
       content: '标签管理'
