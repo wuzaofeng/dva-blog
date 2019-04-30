@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { connect } from 'dva';
+import { connect } from 'dva';
 import { Tabs } from 'antd'
 import { StickyContainer, Sticky } from 'react-sticky'
 import UserManage from './user'
@@ -52,4 +52,9 @@ class Manage extends Component {
   }
 }
 
-export default Manage
+export default connect(({ user }) => ({
+  user,
+}), (props) => {
+  console.log(props)
+  return {}
+})(Manage)
