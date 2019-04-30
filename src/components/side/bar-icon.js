@@ -10,15 +10,6 @@ const BarIcon = ({ barIcon }) => {
           <Icon type="github" theme="filled" />
         </a>
       </li>
-      {
-        barIcon.map((item, i) => (
-          <li key={i} className={style.li}>
-            <a href={item.link}>
-              <Icon type={item.icon} theme="filled" />
-            </a>
-          </li>
-        ))
-      }
     </ul>)
 }
 

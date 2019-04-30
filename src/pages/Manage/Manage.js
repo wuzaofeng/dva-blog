@@ -4,6 +4,7 @@ import { Tabs } from 'antd'
 import { StickyContainer, Sticky } from 'react-sticky'
 import UserManage from './user'
 import Categories from './categories'
+import Tags from './tags'
 // import style from './Manage'
 
 const { TabPane } = Tabs
@@ -28,10 +29,8 @@ class Manage extends Component {
       component: <Categories />
     }, {
       title: '标签管理',
-      content: '标签管理'
-    }, {
-      title: '链接管理',
-      content: '链接管理'
+      content: '标签管理',
+      component: <Tags />
     }, {
       title: '文章管理',
       content: '文章管理'

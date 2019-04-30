@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Avatar, Button, Icon, Popconfirm, message, Modal, Form, Input, Upload } from "antd"
 import {getUser, createUser, updateUser, delUser} from "../../services/user"
 import ManageTable from '../../components/table/table'
-import style from "./user.scss"
+import style from "./Manage.scss"
 import {CODE} from "../../config";
 import {beforeUpload} from "../../utils/utils";
 

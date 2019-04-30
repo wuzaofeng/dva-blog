@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Icon, Popconfirm, message, Modal, Form, Input } from "antd"
-import {getCategories, createCategories, updateCategories, delCategories} from "../../services/categories"
+import {getTags, createTags, updateTags, delTags} from "../../services/tags"
 import ManageTable from '../../components/table/table'
 import style from "./Manage.scss"
 import {CODE} from "../../config";
@@ -19,8 +19,8 @@ const formItemLayout = {
   colon: false,
 };
 
-@Form.create({ name: 'userManage' })
-class Categories extends Component {
+@Form.create({ name: 'tagsManage' })
+class TagsManage extends Component {
   state = {
     list: [], // 数据
     count: 0, // 总条数
@@ -37,7 +37,7 @@ class Categories extends Component {
 
   // 获取列表
   getList = () => {
-    getCategories().then(res => {
+    getTags().then(res => {
       const { data: { list, count } } = res
       this.setState({
         list,
@@ -47,13 +47,14 @@ class Categories extends Component {
   }
 
   // 删除用户
-  delete = (e) => {
+  delTags = (e) => {
     const { selectedRowKeys } = this.state
     if (!selectedRowKeys.length) {
       message.error('未选中行');
       return
     }
-    delCategories({
+    console.log(selectedRowKeys)
+    delTags({
       delData: selectedRowKeys
     }).then(res => {
       const { code } = res.data || {}
@@ -65,15 +66,13 @@ class Categories extends Component {
       }
     })
   }
+
   // 弹出层显示
   showModal = (type='', data='') => {
-
     let formModels = {}
     if (type && data) {
-      const { _id, type, name } = data
-      formModels = {
-        _id, type, name
-      }
+      const {name, type, _id} = data
+      formModels = { name, type, _id }
     }
     this.setState({
       visible: true,
@@ -94,6 +93,7 @@ class Categories extends Component {
     this.setState({
       confirmLoading: true,
     });
+    
     this.props.form.validateFields((err, fieldsValue) => {
       if (err) {
         this.setState({
@@ -103,7 +103,7 @@ class Categories extends Component {
       }
       const { type, formModels } = this.state
       if (type) {
-        updateCategories({ ...formModels, ...fieldsValue}).then((res) => {
+        updateTags({ ...formModels, ...fieldsValue}).then((res) => {
           const { code } = res.data || {}
           if (code === CODE.SUCCESS) {
             message.success('更新成功');
@@ -120,7 +120,7 @@ class Categories extends Component {
           }
         })
       } else {
-        createCategories({...fieldsValue}).then(res => {
+        createTags({...fieldsValue}).then(res => {
           const { code } = res.data || {}
           if (code === CODE.SUCCESS) {
             message.success('添加成功');
@@ -135,8 +135,6 @@ class Categories extends Component {
               confirmLoading: false
             });
           }
-        }).catch(err => {
-          console.log(err)
         })
       }
     });
@@ -149,19 +147,28 @@ class Categories extends Component {
     })
   }
 
+  handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      this.setState({ imgLoading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      this.setState({
+        imageUrl: info.file.response.path,
+        imgLoading: false,
+      })
+    }
+  }
 
   render() {
     const { list, visible, confirmLoading, formModels, selectedRowKeys } = this.state
     const { form: { getFieldDecorator }} = this.props;
     const columns = [{
-      title: '自定义标识(唯一)',
-      dataIndex: 'type',
-    }, {
-      title: '分类名称',
+      title: '标签名',
       dataIndex: 'name',
     }, {
-      title: '文章数量',
-      dataIndex: 'count',
+      title: '标记',
+      dataIndex: 'type',
     }, {
       title: '操作',
       key: 'operation',
@@ -169,7 +176,6 @@ class Categories extends Component {
       width: 100,
       render: (text, record) => <Button size="small" block onClick={() => this.showModal('edit', record)}>修改</Button>,
     },]
-    
     return (
       <div className={style.wrap}>
         <ButtonGroup className={style.buttonWrap}>
@@ -179,11 +185,11 @@ class Categories extends Component {
           </Button>
           <Popconfirm
             okType="danger"
-            title="你确定要删除文字分类么？"
+            title="你确定要删除用户么？"
             placement="rightTop"
             okText="是"
             cancelText="否"
-            onConfirm={this.delete}>
+            onConfirm={this.delTags}>
             <Button>
               <Icon type="user-delete" />
               删除
@@ -209,24 +215,24 @@ class Categories extends Component {
           <Form onSubmit={this.handleSubmit}>
             <Form.Item
               {...formItemLayout}
-              label="自定义标识"
-            >
-              {
-                getFieldDecorator('type', {
-                  initialValue: (formModels.type || formModels.type === 0) ? formModels.type : '',
-                  rules: [{ required: true, message: '请输入唯一标识' }]
-                })(<Input placeholder="请输入唯一标识" />)
-              }
-            </Form.Item>
-            <Form.Item
-              {...formItemLayout}
-              label="分类名称"
+              label="标签名"
             >
               {
                 getFieldDecorator('name', {
                   initialValue: formModels.name || '',
-                  rules: [{ required: true, message: '请输入分类名称' }]
-                })(<Input placeholder="输入分类名称" />)
+                  rules: [{ required: true, message: '请输入标签名' }]
+                })(<Input placeholder="标签名" />)
+              }
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              label="标记"
+            >
+              {
+                getFieldDecorator('type', {
+                  initialValue: formModels.type || '',
+                  rules: [{ required: true, message: '请输入标记' }]
+                })(<Input placeholder="输入标记" />)
               }
             </Form.Item>
           </Form>
@@ -236,4 +242,4 @@ class Categories extends Component {
   }
 }
 
-export default Categories
+export default TagsManage
