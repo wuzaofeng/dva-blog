@@ -10,8 +10,7 @@ const { Sider } = Layout
 
 class Side extends Component {
   render() {
-    const { user } = this.props
-    console.log(user)
+    const { user } = this.props;
     return (
       <Sider width='100%' className={style.side}>
         <Author {...user} />

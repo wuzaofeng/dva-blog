@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { List } from 'antd';
 import Item from '../../components/item/item'
 import Pagin from '../../components/pagin/pagin'
-import style from './Home.scss';
+import style from './home.scss';
 
 class Home extends Component {
   componentDidMount() {

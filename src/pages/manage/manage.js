@@ -5,7 +5,7 @@ import { StickyContainer, Sticky } from 'react-sticky'
 import UserManage from './user'
 import Categories from './categories'
 import Tags from './tags'
-// import style from './Manage'
+import Articles from './articles'
 
 const { TabPane } = Tabs
 
@@ -33,7 +33,8 @@ class Manage extends Component {
       component: <Tags />
     }, {
       title: '文章管理',
-      content: '文章管理'
+      content: '文章管理',
+      component: <Articles />
     }]
     return (
       <StickyContainer>
